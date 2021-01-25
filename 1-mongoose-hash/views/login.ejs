@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <!-- fieldset*2>label+input -->
+    <fieldset><label for="username"></label><input id="username" type="text"></fieldset>
+    <fieldset><label for="password"></label><input id="password" type="text"></fieldset>
+    <p id="result"></p>
+    <button>Login</button>
+
+    <script>
+
+
+        document.querySelector('button').addEventListener('click', () => {
+            const data = {
+                username: document.querySelector('#username').value,
+                password: document.querySelector('#password').value
+            }
+
+            fetch('/users/login', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if(response.status === 200) {
+                    response.json().then(data => {
+                        if (data === 1) {
+                            document.querySelector('#result').innerHTML = 'you are logged in';
+                        } else {
+                            document.querySelector('#result').innerHTML = 'Either user name or password is wrong';
+                        }
+                    }).catch(error => {
+                        document.querySelector('#result').innerHTML = error.message;
+                    })
+                } else {
+                    document.querySelector('#result').innerHTML = 'can not send the data';
+                }
+            }).catch(error => {
+                document.querySelector('#result').innerHTML = error.message;
+            })
+
+        })
+    </script>
+    
+</body>
+</html>
