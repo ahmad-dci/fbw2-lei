@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 // get connectionstring from mongodbatlas
 const connectionString = 'mongodb+srv://fbw2lei:!234qweR@cluster0.rmrmn.mongodb.net/fbw2lei?retryWrites=true&w=majority'
 
@@ -56,18 +57,26 @@ function connect() {
 function registerUser(fname, lname, username, email, password) {
     return new Promise((resolve, reject) => {
         connect().then(() => {
-            const newUser = new Users({
-                firstName: fname,
-                lastName: lname,
-                userName: username,
-                email,        //email: email
-                password
-            });
-            newUser.save().then(result => {
-                resolve(result);
-            }).catch(error => {
-                reject(error)
+            bcrypt.hash(password, 10, (err, hashedPass) =>{
+                if (!err) {
+                    const newUser = new Users({
+                        firstName: fname,
+                        lastName: lname,
+                        userName: username,
+                        email,        //email: email
+                        password: hashedPass
+                    });
+                    newUser.save().then(result => {
+                        resolve(result);
+                    }).catch(error => {
+                        reject(error)
+                    })
+                } else{
+                    reject(new Error('can not hash the password'))
+                }
+                
             })
+            
         }).catch(error => {
             reject(error)
         })
