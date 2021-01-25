@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/register', (req, res) => {
 res.render('register');
-})
+});
 
 router.post('/register', (req, res) => {
   const {fname, lname, username, email, password} = req.body;

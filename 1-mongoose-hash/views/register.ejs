@@ -36,7 +36,10 @@
 
             fetch('/users/register', {
                 method: 'POST',
-                body: JSON.stringify(data)
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             }).then(response => {
                 if(response.status === 200) {
                     response.json().then(data => {
