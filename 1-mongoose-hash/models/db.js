@@ -83,6 +83,35 @@ function registerUser(fname, lname, username, email, password) {
     })
 }
 
+function checkUser(username, password) {
+    // errors map
+    // 3 server error
+    // 4 not match
+    // 5 user not found
+    return new Promise((resolve, reject) => {
+        Users.findOne({userName: username}).then(user => {
+            if (user) {
+                bcrypt.compare(password, user.password, (err, result) => {
+                    if (err) {
+                        reject(3);
+                    } else {
+                        if (result) {
+                            resolve();
+                        } else {
+                            reject(4);
+                        }
+                    }
+                })
+            } else {
+                reject(5);
+            }
+        }).catch(error => {
+            reject(3)
+        })
+    })
+}
+
 module.exports = {
-    registerUser
+    registerUser,
+    checkUser
 }

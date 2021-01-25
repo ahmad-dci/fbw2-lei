@@ -18,6 +18,15 @@ router.post('/register', (req, res) => {
   }).catch(error => {
     res.json(2);
   })
+});
+
+router.get('/login', (req, res) => {
+  res.render('login')
+})
+
+router.post('/login', (req, res) => {
+  const {username, password} = req.body;
+  console.log(req.body);
 })
 
 module.exports = router;
