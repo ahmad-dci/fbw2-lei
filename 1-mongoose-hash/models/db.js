@@ -89,7 +89,9 @@ function checkUser(username, password) {
     // 4 not match
     // 5 user not found
     return new Promise((resolve, reject) => {
-        Users.findOne({userName: username}).then(user => {
+        Users.find({userName: username}).then(users => {
+            console.log(users);
+            const user = users[0]
             if (user) {
                 bcrypt.compare(password, user.password, (err, result) => {
                     if (err) {

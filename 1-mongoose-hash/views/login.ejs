@@ -30,10 +30,27 @@
             }).then(response => {
                 if(response.status === 200) {
                     response.json().then(data => {
-                        if (data === 1) {
+                        // if (data === 1) {
+                        //     document.querySelector('#result').innerHTML = 'you are logged in';
+                        // } else {
+                        //     document.querySelector('#result').innerHTML = 'Either user name or password is wrong';
+                        // }
+                        switch (data) {
+                            case 1:
                             document.querySelector('#result').innerHTML = 'you are logged in';
-                        } else {
-                            document.querySelector('#result').innerHTML = 'Either user name or password is wrong';
+                                break;
+                            case 3:
+                            document.querySelector('#result').innerHTML = 'Server Error';
+                                break;
+                            case 4:
+                            document.querySelector('#result').innerHTML = 'password is wrong';
+                                break;
+                            case 5:
+                            document.querySelector('#result').innerHTML = 'user with this user name is not exist';
+                                break;
+                        
+                            default:
+                                break;
                         }
                     }).catch(error => {
                         document.querySelector('#result').innerHTML = error.message;

@@ -26,7 +26,12 @@ router.get('/login', (req, res) => {
 
 router.post('/login', (req, res) => {
   const {username, password} = req.body;
-  console.log(req.body);
+  //console.log(req.body);
+  db.checkUser(username, password).then(()=>{
+    res.json(1)
+  }).catch(error => {
+    res.json(error)
+  })
 })
 
 module.exports = router;
