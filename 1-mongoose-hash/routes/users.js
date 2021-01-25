@@ -1,5 +1,6 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const db = require('../models/db')
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -8,6 +9,15 @@ router.get('/', function(req, res, next) {
 
 router.get('/register', (req, res) => {
 res.render('register');
+})
+
+router.post('/register', (req, res) => {
+  const {fname, lname, username, email, password} = req.body;
+  db.registerUser(fname, lname, username, email, password).then(result => {
+    res.json(1);
+  }).catch(error => {
+    res.json(2);
+  })
 })
 
 module.exports = router;

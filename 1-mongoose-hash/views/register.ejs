@@ -16,11 +16,45 @@
     <br>
     <label for="password">Password</label><input id="password" type="password">
     <br>
-    <label for="repassord">re-password</label><input id="repassord" type="password">
+    <label for="repassord">re-password</label><input id="repassword" type="password">
     <br>
     <p id="result"></p>
     <button>Register</button>
 
-    
+    <script>
+
+        const resultElement = document.querySelector('#result')
+
+        document.querySelector('button').addEventListener('click', () => {
+            const data = {
+                fname: document.querySelector('#fname').value,
+                lname: document.querySelector('#lname').value,
+                username: document.querySelector('#username').value,
+                email: document.querySelector('#email').value,
+                password: document.querySelector('#password').value
+            };
+
+            fetch('/users/register', {
+                method: 'POST',
+                body: JSON.stringify(data)
+            }).then(response => {
+                if(response.status === 200) {
+                    response.json().then(data => {
+                        if (data === 1) {
+                            resultElement.innerHTML = 'user is registered you can login now';
+                        } else {
+                            resultElement.innerHTML = 'user is not registered';
+                        }
+                    }).catch(error => {
+                        resultElement.innerHTML = error.message;
+                    })
+                } else {
+                    resultElement.innerHTML = 'can not not send the data';
+                }
+            }).catch(error => {
+                resultElement.innerHTML = error.message;
+            })
+        })
+    </script>
 </body>
 </html>
